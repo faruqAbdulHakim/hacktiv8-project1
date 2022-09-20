@@ -1,0 +1,27 @@
+{
+  "name": "hacktiv8-project1",
+  "version": "1.0.0",
+  "description": "final project-1 hacktiv8",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.18.1",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  },
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faruqAbdulHakim/hacktiv8-project1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/faruqAbdulHakim/hacktiv8-project1/issues"
+  },
+  "homepage": "https://github.com/faruqAbdulHakim/hacktiv8-project1#readme"
+}
