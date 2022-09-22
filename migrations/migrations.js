@@ -1,44 +1,36 @@
-const pool = require('./../config/DBConnet')
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+const pool = require('../config/DBConnection');
 
-async function tb_users () { 
-  await pool.query(`
-  CREATE TABLE tb_users (
-    id serial PRIMARY KEY,
-    email varchar,
-    password varchar
-    );`
-  );
-  console.log('migration users sukses');
-};
+async function migrate() {
+  try {
+    await pool.query('DROP TABLE IF EXISTS users CASCADE;');
+    await pool.query('DROP TABLE IF EXISTS reflections CASCADE;');
+    console.log('Success: DROP TABLE IF EXISTS');
 
-async function tb_reflections () {
-  await pool.query(`
-  CREATE TABLE tb_reflections (
-    id serial PRIMARY KEY,
-    success varchar,
-    low_point varchar,
-    take_away varchar,
-    owner_id int,
-    created_date timestamp,
-    modified_date timestamp,
-    CONSTRAINT fk_users
-      FOREIGN KEY (owner_id)
-      REFERENCES tb_users(id)
-    );`
-  );
-  console.log('migration reflection sukses');
-};
+    await pool.query(`
+    CREATE TABLE users (
+      id SERIAL PRIMARY KEY,
+      email VARCHAR UNIQUE,
+      password VARCHAR
+    );`);
+    console.log('Success: CREATE TABLE users');
 
-async function addUnique() {
-  await pool.query(`
-  ALTER TABLE tb_users ADD CONSTRAINT email_unique UNIQUE (email)
-  `)
-  console.log('Berhasil membuat unique')
+    await pool.query(`
+    CREATE TABLE reflections (
+      id SERIAL PRIMARY KEY,
+      success VARCHAR,
+      low_point VARCHAR,
+      take_away VARCHAR,
+      owner_id INT REFERENCES users(id),
+      created_date TIMESTAMP DEFAULT NOW(),
+      modified_date TIMESTAMP DEFAULT NOW()
+    );`);
+    console.log('Success: CREATE TABLE reflections');
+
+    console.log('Migrations Success');
+  } catch (error) {
+    console.error('Migrations Failed:', error.message);
+  }
 }
 
-// panggil fungsi untuk melakukan migration dan run file migrations.js
-
-
-// tb_users();
-// tb_reflections();
-// addUnique(); 
+migrate();
