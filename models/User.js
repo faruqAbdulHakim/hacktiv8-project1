@@ -9,7 +9,7 @@ class User {
   };
 
   static async register(email, password) {
-    const hashing = hashPassword.cryptPassword (password)
+    const hashing = hashPassword.cryptPassword(password)
     try {
       const register = await pool.query(`
         INSERT INTO users (email, password) 
@@ -17,7 +17,7 @@ class User {
           RETURNING email, password;`, 
         [email, hashing]
       );
-      return { success: true, result: new User(register.rows[0].id, register.rows[0].email, register.rows[0].password) }
+      return new User(register.rows[0].id, register.rows[0].email, register.rows[0].password)
     } catch (error) {
       return { success: false, error }
     }
