@@ -1,19 +1,8 @@
-const router = require('express').Router();
+const router = require("express").Router();
+const usersRouter = require('./usersRouter.js');
+const reflectionsRouter = require('./reflectionsRouter');
 
-router.get('/', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
+router.use('/api/v1/users',usersRouter);
+router.use('/api/v1/reflections',reflectionsRouter);
 
-router.post('/', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
-
-router.put('/:id', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
-
-router.delete('/:id', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
-
-module.exports = router; 
+module.exports = router;
