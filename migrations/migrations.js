@@ -10,18 +10,18 @@ async function migrate() {
     await pool.query(`
     CREATE TABLE users (
       id SERIAL PRIMARY KEY,
-      email VARCHAR UNIQUE,
-      password VARCHAR
+      email VARCHAR UNIQUE NOT NULL,
+      password VARCHAR NOT NULL
     );`);
     console.log('Success: CREATE TABLE users');
 
     await pool.query(`
     CREATE TABLE reflections (
       id SERIAL PRIMARY KEY,
-      success VARCHAR,
-      low_point VARCHAR,
-      take_away VARCHAR,
-      owner_id INT REFERENCES users(id),
+      success VARCHAR NOT NULL,
+      low_point VARCHAR NOT NULL,
+      take_away VARCHAR NOT NULL,
+      owner_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
       created_date TIMESTAMP DEFAULT NOW(),
       modified_date TIMESTAMP DEFAULT NOW()
     );`);
