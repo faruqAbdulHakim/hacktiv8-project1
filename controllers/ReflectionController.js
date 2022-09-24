@@ -23,12 +23,12 @@ class ReflectionController {
     static async delete(req, res, next) {
         const { id } = req.params;
         try {
-            const reflection = await Reflection.delete( id )
+            const reflection = await Reflection.delete( id, req.user.id )
             // if (!photo) throw { name: 'ErrNotFound' };
             res.status(200).json(reflection);
         } catch (error) {
-            console.log(error);
-            // res.status(500).json({ message: "internal server error" });
+            // console.log(error);
+            res.status(500).json({ message: "internal server error" });
         }
     }
 
@@ -38,7 +38,7 @@ class ReflectionController {
         const data = { success, low_point, take_away }
         try {
             const reflection = await Reflection
-            .update(id, data)
+            .update(id, req.user.id, data)
             res.status(200).json(reflection);
         } catch (error) {
             res.status(500).json({ message: "internal server error" });
