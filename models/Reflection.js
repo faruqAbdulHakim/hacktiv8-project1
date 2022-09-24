@@ -70,12 +70,13 @@ class Reflection {
   /**
    *
    * @param {number} reflectionId
+   * @param {number} ownerId
    * @param {Reflection} reflection
-   * @return {Promise<{success: boolean, error?: Error}>}
+   * @return {Promise<{success: boolean, rowCount?: number error?: Error}>}
    */
-  static async update(reflectionId, reflection) {
+  static async update(reflectionId, ownerId, reflection) {
     try {
-      await pool.query(
+      const queryResult = await pool.query(
         `
         UPDATE reflections
         SET 
@@ -85,38 +86,39 @@ class Reflection {
           modified_date = NOW()
         WHERE
           id = $4
+          AND
+          owner_id = $5
       `,
         [
           reflection.success,
           reflection.low_point,
           reflection.take_away,
           reflectionId,
+          ownerId,
         ]
       );
-      return {
-        success: true,
-      };
+      return { success: true, rowCount: queryResult.rowCount };
     } catch (error) {
       return {
         success: false,
         error,
       };
     }
-    
   }
 
   /**
    *
    * @param {number} id
-   * @return {Promise<{success: boolean, error?: Error}>}
+   * @param {number} ownerId
+   * @return {Promise<{success: boolean, rowCount?:number, error?: Error}>}
    */
-  static async delete(id) {
+  static async delete(id, ownerId) {
     try {
-      await pool.query(
-        `DELETE FROM reflections WHERE id = $1`,
-        [id]
+      const queryResult = await pool.query(
+        `DELETE FROM reflections WHERE id = $1 AND owner_id = $2`,
+        [id, ownerId]
       );
-      return { success: true };
+      return { success: true, rowCount: queryResult.rowCount };
     } catch (error) {
       return { success: false, error };
     }
