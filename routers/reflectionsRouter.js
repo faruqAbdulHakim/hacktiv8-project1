@@ -6,7 +6,7 @@ router.get('/', ReflectionController.findAll);
 router.post('/', ReflectionController.create);
 
 router.delete('/:id', ReflectionController.delete);
-// router.put('/:id', ReflectionController.update);
+router.put('/:id', ReflectionController.update);
 
 
 module.exports = router;
