@@ -49,7 +49,7 @@ class Reflection {
   /**
    *
    * @param {number} owner_id
-   * @return {Promise<{success: boolean, result: reflectionRow[], error?: Error}>}
+   * @return {Promise<{success: boolean, result?: reflectionRow[], error?: Error}>}
    */
   static async findAll(owner_id) {
     try {
@@ -61,6 +61,31 @@ class Reflection {
       `,
         [owner_id]
       );
+      return { success: true, result: queryResult.rows };
+    } catch (error) {
+      return { success: false, error };
+    }
+  }
+
+  /**
+   *
+   * @param {number} id
+   * @return {Promise<{success: boolean, result?: reflectionRow[], error: Error}>}
+   */
+  static async findOne(id) {
+    try {
+      const queryResult = await pool.query(
+        `
+        SELECT id, success, low_point, take_away, owner_id, created_date, modified_date
+        FROM reflections
+        WHERE id = $1
+      `,
+        [id]
+      );
+      if (!queryResult.rowCount) {
+        throw { name: 'NotFound', message: 'Reflection Not Found' };
+      }
+
       return { success: true, result: queryResult.rows };
     } catch (error) {
       return { success: false, error };
