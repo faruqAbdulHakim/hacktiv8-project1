@@ -27,7 +27,7 @@ class Reflection {
   }
 
   /**
-   * @function save
+   * @function create
    * @return {Promise<{success: boolean, error?: Error}>}
    */
   static async create(success, low_point, take_away, owner_id) {
@@ -84,7 +84,7 @@ class Reflection {
           take_away = $3, 
           modified_date = NOW()
         WHERE
-          id = $5
+          id = $4
       `,
         [
           reflection.success,
@@ -102,6 +102,7 @@ class Reflection {
         error,
       };
     }
+    
   }
 
   /**
@@ -112,9 +113,7 @@ class Reflection {
   static async delete(id) {
     try {
       await pool.query(
-        `
-          DELETE FROM reflections WHERE id = $1
-      `,
+        `DELETE FROM reflections WHERE id = $1`,
         [id]
       );
       return { success: true };

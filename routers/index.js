@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const usersRouter = require('./usersRouter.js');
-const reflectionsRouter = require('./reflectionsRouter');
-const userVerify = require('../middlewares/authMiddleware')
+const reflectionsRouter = require('./reflectionsRouter.js');
+const userVerify = require('../middlewares/authMiddleware.js')
 
 router.use('/api/v1/users',usersRouter);
 router.use(userVerify);
