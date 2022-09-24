@@ -4,8 +4,8 @@ class ReflectionController {
     static async create(req, res) {
         const { success, low_point, take_away } = req.body;
         try {
-            const reflection = await Reflection.create(success, low_point, take_away);
-            res.status(201).json(reflection);
+            const reflection = await Reflection.create(success, low_point, take_away, req.user.id);
+            res.status(200).json(reflection);
         } catch (error) {
             res.status(500).json({ message: "internal server error" });
         }
@@ -17,6 +17,18 @@ class ReflectionController {
             res.status(200).json(reflection);
         } catch (error) {
             res.status(500).json({ message: "internal server error" });
+        }
+    }
+
+    static async delete(req, res, next) {
+        const { id } = req.params;
+        try {
+            const reflection = await Reflection.delete( id )
+            // if (!photo) throw { name: 'ErrNotFound' };
+            res.status(200).json(reflection);
+        } catch (error) {
+            console.log(error);
+            // res.status(500).json({ message: "internal server error" });
         }
     }
 
