@@ -1,16 +1,11 @@
+const ReflectionController = require("../controllers/ReflectionController.js");
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
+router.get('/', ReflectionController.findAll);
 
-router.post('/', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
+router.post('/', ReflectionController.create);
 
-router.put('/:id', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
+// router.put('/:id', ReflectionController.update);
 
 router.delete('/:id', (req, res) => {
     res.status(501).json({ message: "berhasil" });

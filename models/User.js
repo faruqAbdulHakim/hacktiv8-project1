@@ -14,7 +14,7 @@ class User {
       const register = await pool.query(`
         INSERT INTO users (email, password) 
           VALUES ($1, $2) 
-          RETURNING email, password;`, [email, hashing]
+          RETURNING *;`, [email, hashing]
       );
       return new User(register.rows[0].id, register.rows[0].email, register.rows[0].password)
     } catch (error) {

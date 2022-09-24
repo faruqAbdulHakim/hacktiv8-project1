@@ -1,19 +1,19 @@
 const { verify } = require('../helpers/jwtHelper')
 
-exports.userVerify = (req, res, next) => {
+function userVerify (req, res, next) {
   try {
     const authHeader = req.headers['authorization']
     if (!authHeader) {
       return res.status(403).json({ message: 'before request data, please login first' })
     }
-    const token = authHeader.split(' ')[1]
-    if (token.length !== 2) {
-      return res.status(400).json({ message: 'InvalidToken' })
-    }
-    const { id, name } = verify(token)
-    req.user = { id, name }
+    const token = authHeader.split("Bearer ");
+    if (token.length !== 2) throw { name: 'invalidToken'};
+    const { id, email } = verify(token[1]);
+    req.user = { id, email };
     next()
   } catch (error) {
-    next(error.name)
+    res.status(401).json({ message: "invalidToken" });
   }
 }
+
+module.exports = userVerify;
