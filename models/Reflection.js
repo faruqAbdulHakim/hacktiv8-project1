@@ -32,7 +32,7 @@ class Reflection {
    */
   static async create(success, low_point, take_away, owner_id) {
     try {
-      await pool.query(
+      const reflection = await pool.query(
         `
           INSERT INTO reflections(success, low_point, take_away, owner_id)
           VALUES
@@ -40,7 +40,7 @@ class Reflection {
         `,
         [success, low_point, take_away, owner_id]
       );
-      return { success: true, reflection };
+      return { success: true, result: reflection };
     } catch (error) {
       return { success: false, error };
     }
@@ -106,16 +106,16 @@ class Reflection {
 
   /**
    *
-   * @param {number} reflectionId
+   * @param {number} id
    * @return {Promise<{success: boolean, error?: Error}>}
    */
-  static async delete(reflectionId) {
+  static async delete(id) {
     try {
       await pool.query(
         `
           DELETE FROM reflections WHERE id = $1
       `,
-        [reflectionId]
+        [id]
       );
       return { success: true };
     } catch (error) {

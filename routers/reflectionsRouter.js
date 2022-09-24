@@ -5,10 +5,8 @@ router.get('/', ReflectionController.findAll);
 
 router.post('/', ReflectionController.create);
 
+router.delete('/:id', ReflectionController.delete);
 // router.put('/:id', ReflectionController.update);
 
-router.delete('/:id', (req, res) => {
-    res.status(501).json({ message: "berhasil" });
-});
 
 module.exports = router;
