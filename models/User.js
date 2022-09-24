@@ -1,5 +1,5 @@
 const pool = require('./../config/DBConnection');
-
+const hashPassword = require('./../helpers/bcrypt');
 
 class User {
   constructor(id, email, password) {
