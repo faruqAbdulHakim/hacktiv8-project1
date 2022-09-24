@@ -30,7 +30,7 @@ class Reflection {
    * @function save
    * @return {Promise<{success: boolean, error?: Error}>}
    */
-  async save() {
+  static async create(success, low_point, take_away, owner_id) {
     try {
       await pool.query(
         `
@@ -38,9 +38,9 @@ class Reflection {
           VALUES
             ($1, $2, $3, $4);
         `,
-        [this.success, this.low_point, this.take_away, this.owner_id]
+        [success, low_point, take_away, owner_id]
       );
-      return { success: true };
+      return { success: true, reflection };
     } catch (error) {
       return { success: false, error };
     }
@@ -48,10 +48,10 @@ class Reflection {
 
   /**
    *
-   * @param {number} ownerId
+   * @param {number} owner_id
    * @return {Promise<{success: boolean, result: reflectionRow[], error?: Error}>}
    */
-  static async findByOwnerId(ownerId) {
+  static async findAll(owner_id) {
     try {
       const queryResult = await pool.query(
         `
@@ -59,7 +59,7 @@ class Reflection {
           FROM reflections
           WHERE owner_id = $1;
       `,
-        [ownerId]
+        [owner_id]
       );
       return { success: true, result: queryResult.rows };
     } catch (error) {
@@ -82,7 +82,6 @@ class Reflection {
           success = $1,
           low_point = $2, 
           take_away = $3, 
-          owner_id = $4,
           modified_date = NOW()
         WHERE
           id = $5
@@ -91,7 +90,6 @@ class Reflection {
           reflection.success,
           reflection.low_point,
           reflection.take_away,
-          reflection.owner_id,
           reflectionId,
         ]
       );
