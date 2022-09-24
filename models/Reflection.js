@@ -27,7 +27,7 @@ class Reflection {
   }
 
   /**
-   * @function create
+   * @param {number} owner_id
    * @return {Promise<{success: boolean, error?: Error}>}
    */
   static async create(success, low_point, take_away, owner_id) {
@@ -40,7 +40,7 @@ class Reflection {
         `,
         [success, low_point, take_away, owner_id]
       );
-      return { success: true, result: reflection };
+      return { success: true, result: reflection.rows };
     } catch (error) {
       return { success: false, error };
     }
@@ -109,14 +109,14 @@ class Reflection {
   /**
    *
    * @param {number} id
-   * @param {number} ownerId
+   * @param {number} owner_id
    * @return {Promise<{success: boolean, rowCount?:number, error?: Error}>}
    */
-  static async delete(id, ownerId) {
+  static async delete(id, owner_id) {
     try {
       const queryResult = await pool.query(
         `DELETE FROM reflections WHERE id = $1 AND owner_id = $2`,
-        [id, ownerId]
+        [id, owner_id]
       );
       return { success: true, rowCount: queryResult.rowCount };
     } catch (error) {
