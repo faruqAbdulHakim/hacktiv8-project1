@@ -7,6 +7,11 @@ const errorMiddleware = require('../middlewares/errorMiddleware.js');
 router.use('/api/v1/users',usersRouter);
 router.use(userVerify);
 router.use('/api/v1/reflections',reflectionsRouter);
+
+router.use((req, res, next) => {
+    next({ name: 'PageNotFound' });
+});
+
 router.use(errorMiddleware);
 
 module.exports = router;

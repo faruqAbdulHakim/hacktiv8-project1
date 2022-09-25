@@ -30,7 +30,7 @@ class User {
       );
       return new User(login.rows[0].id, login.rows[0].email, login.rows[0].password)
     } catch (error) {
-      return { success: false, error }
+        return { success: false, error }
     }
   }
 }

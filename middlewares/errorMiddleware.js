@@ -34,6 +34,18 @@ function errorMiddleware(error, req, res, next) {
       code = 403;
       message = 'Forbidden';
       break;
+    case 'notLogin':
+      code = 403;
+      message = 'before request data, please login first';
+      break;
+    case 'PageNotFound':
+      code = 404;
+      message = 'Oops... nothing here';
+      break;
+    case 'ErrNotFound':
+      code = 404;
+      message = 'data not found';
+      break;
     default:
       code = 500;
       message = 'Internal Server Error';
