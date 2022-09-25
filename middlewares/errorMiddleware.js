@@ -10,6 +10,10 @@ function errorMiddleware(error, req, res, next) {
   let message;
 
   switch (error.name) {
+    case 'BadRequest':
+      code = 400;
+      message = 'Bad Request';
+      break;
     case 'EmailExist':
       code = 400;
       message = "Can't Register: Email Already Exist";
