@@ -8,27 +8,17 @@ const pool = require('../config/DBConnection');
  *  owner_id: string,
  *  created_date: string,
  *  modified_date: string
- * }} reflectionRow
+ * }} ReflectionRow
  */
 
 class Reflection {
   /**
+   *
    * @param {string} success
    * @param {string} low_point
    * @param {string} take_away
-   * @param {number} owner_id
-   * @return {void}
-   */
-  constructor(success, low_point, take_away, owner_id) {
-    this.success = success;
-    this.low_point = low_point;
-    this.take_away = take_away;
-    this.owner_id = owner_id;
-  }
-
-  /**
-   * @param {number} owner_id
-   * @return {Promise<{success: boolean, error?: Error}>}
+   * @param {string} owner_id
+   * @return {Promise<{success: boolean, count?: number, error?: Error}>}
    */
   static async create(success, low_point, take_away, owner_id) {
     try {
@@ -36,11 +26,12 @@ class Reflection {
         `
           INSERT INTO reflections(success, low_point, take_away, owner_id)
           VALUES
-            ($1, $2, $3, $4);
+            ($1, $2, $3, $4)
+          RETURNING *;
         `,
         [success, low_point, take_away, owner_id]
       );
-      return { success: true, result: reflection.rows };
+      return { success: true, count: reflection.rowCount };
     } catch (error) {
       return { success: false, error };
     }
@@ -49,9 +40,9 @@ class Reflection {
   /**
    *
    * @param {number} owner_id
-   * @return {Promise<{success: boolean, result?: reflectionRow[], error?: Error}>}
+   * @return {Promise<{success: boolean, result?: ReflectionRow[], error?: Error}>}
    */
-  static async findAll(owner_id) {
+  static async findByOwnerId(owner_id) {
     try {
       const queryResult = await pool.query(
         `
@@ -61,6 +52,7 @@ class Reflection {
       `,
         [owner_id]
       );
+
       return { success: true, result: queryResult.rows };
     } catch (error) {
       return { success: false, error };
@@ -70,9 +62,9 @@ class Reflection {
   /**
    *
    * @param {number} id
-   * @return {Promise<{success: boolean, result?: reflectionRow[], error: Error}>}
+   * @return {Promise<{success: boolean, result?: ReflectionRow[], error: Error}>}
    */
-  static async findOne(id) {
+  static async findById(id) {
     try {
       const queryResult = await pool.query(
         `
@@ -82,9 +74,6 @@ class Reflection {
       `,
         [id]
       );
-      if (!queryResult.rowCount) {
-        throw { name: 'NotFound', message: 'Reflection Not Found' };
-      }
 
       return { success: true, result: queryResult.rows };
     } catch (error) {
@@ -94,12 +83,16 @@ class Reflection {
 
   /**
    *
-   * @param {number} reflectionId
-   * @param {number} ownerId
-   * @param {Reflection} reflection
-   * @return {Promise<{success: boolean, rowCount?: number error?: Error}>}
+   * @param {number} reflection_id
+   * @param {number} owner_id
+   * @param {{
+   *  success: string,
+   *  low_point: string,
+   *  take_away: string,
+   * }} reflection
+   * @return {Promise<{success: boolean, count?: number, error?: Error}>}
    */
-  static async update(reflectionId, ownerId, reflection) {
+  static async update(reflection_id, owner_id, reflection) {
     try {
       const queryResult = await pool.query(
         `
@@ -118,16 +111,13 @@ class Reflection {
           reflection.success,
           reflection.low_point,
           reflection.take_away,
-          reflectionId,
-          ownerId,
+          reflection_id,
+          owner_id,
         ]
       );
-      return { success: true, rowCount: queryResult.rowCount };
+      return { success: true, count: queryResult.rowCount };
     } catch (error) {
-      return {
-        success: false,
-        error,
-      };
+      return { success: false, error };
     }
   }
 
@@ -135,7 +125,7 @@ class Reflection {
    *
    * @param {number} id
    * @param {number} owner_id
-   * @return {Promise<{success: boolean, rowCount?:number, error?: Error}>}
+   * @return {Promise<{success: boolean, count?:number, error?: Error}>}
    */
   static async delete(id, owner_id) {
     try {
@@ -143,7 +133,7 @@ class Reflection {
         `DELETE FROM reflections WHERE id = $1 AND owner_id = $2`,
         [id, owner_id]
       );
-      return { success: true, rowCount: queryResult.rowCount };
+      return { success: true, count: queryResult.rowCount };
     } catch (error) {
       return { success: false, error };
     }
