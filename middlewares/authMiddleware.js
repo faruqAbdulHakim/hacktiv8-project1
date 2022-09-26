@@ -12,9 +12,8 @@ function authMiddleware(req, res, next) {
     if (!authHeader) throw { name: 'notLogin' };
 
     token = authHeader.split(' ')[1];
-    if (token.length !== 2) throw { name: 'InvalidToken' };
 
-    const { id, email } = verify(token[1]);
+    const { id, email } = verify(token);
     if (!id) throw { name: 'Unauthorized' };
 
     req.user = { id, email };
