@@ -1,6 +1,14 @@
 const pool = require('./../config/DBConnection');
 const hashPassword = require('./../helpers/bcrypt');
 
+
+/**
+ * @typedef {{
+ *  id: number,
+ *  email: string,
+ *  password: string,
+ * }} UserRow
+ */
 class User {
   constructor(id, email, password) {
     this.id = id;
@@ -8,9 +16,15 @@ class User {
     this.password = password
   };
 
+
+  /**
+   * @param {string} email
+   * @param {string} password
+   * @return {Promise<{new User, error?: Error}>}
+   */
   static async register(email, password) {
-    const hashing = hashPassword.cryptPassword(password)
     try {
+      const hashing = hashPassword.cryptPassword(password)
       const register = await pool.query(`
         INSERT INTO users (email, password) 
           VALUES ($1, $2) 
@@ -22,7 +36,12 @@ class User {
     }
   }
 
-  static async login(email, password) {
+
+  /**
+   * @param {string} email
+   * @return {Promise<{new User, error?: Error}>}
+   */
+  static async login(email) {
     try {
       const login = await pool.query(`
       SELECT id, email, password 
