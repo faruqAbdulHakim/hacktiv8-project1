@@ -6,12 +6,19 @@ exports.register = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const cekEmail = await User.login(email, password);
+
     if (email === cekEmail.email) {
       throw { name: 'EmailExist' }
     }
+
+    if (password.length < 8) {
+      throw { name: 'reqPassword' }
+    }
+
     const register = await User.register(email, password);
-    res.status(201).json(
-      { message: 'Register Success', account: register }
+    res.status(201).json({ 
+      message: 'Register Success',
+      account: register }
       );
   } catch (error) {
     next(error);
@@ -19,11 +26,18 @@ exports.register = async (req, res, next) => {
 }
 
 exports.login = async (req, res, next) => {
-  const { email, password } = req.body;
   try {
+    const { email, password } = req.body;
     const login = await User.login(email, password);
-    if (!login.email) throw { name: 'UserNotFound' };
-    if (!hashPassword.comparePassword(password, login.password)) throw { name: 'UserNotFound' };
+
+    if (!login.email) {
+      throw { name: 'UserNotFound' }
+    };
+
+    if (!hashPassword.comparePassword(password, login.password)) {
+      throw { name: 'WrongPassword' }
+    };
+
     const token = sign({
       id: login.id,
       email: login.email
