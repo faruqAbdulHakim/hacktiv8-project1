@@ -18,6 +18,10 @@ function errorMiddleware(error, req, res, next) {
       code = 400;
       message = "Can't Register: Email Already Exist";
       break;
+    case 'reqPassword':
+      code = 400;
+      message = "Can't Register: Password required min 8 character";
+      break;
     case 'JsonWebTokenError':
       code = 401;
       message = 'Invalid Token';
@@ -32,15 +36,15 @@ function errorMiddleware(error, req, res, next) {
       break;
     case 'UserNotFound':
       code = 401;
-      message = 'Wrong Email/Password';
+      message = 'Wrong Email, Email Not Found';
       break;
-    case 'Forbidden':
-      code = 403;
-      message = 'Forbidden';
+    case 'WrongPassword':
+      code = 401;
+      message = 'Wrong Password';
       break;
     case 'notLogin':
       code = 403;
-      message = 'before request data, please login first';
+      message = 'Forbidden, Before request data, please login first !';
       break;
     case 'PageNotFound':
       code = 404;
