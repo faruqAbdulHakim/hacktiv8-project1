@@ -14,7 +14,7 @@ function authMiddleware(req, res, next) {
     token = authHeader.split(' ')[1];
 
     const { id, email } = verify(token);
-    if (!id) throw { name: 'Unauthorized' };
+    if (!id || !email) throw { name: 'Unauthorized' };
 
     req.user = { id, email };
     next();

@@ -1,10 +1,22 @@
-if (process.env.NODE_ENV !== 'production') require('dotenv').config
+if (process.env.NODE_ENV !== 'production') require('dotenv').config;
 const jwt = require('jsonwebtoken');
 
-exports.sign = (payload) => {
-  return jwt.sign(payload, process.env.SECRET_TOKEN);
+/**
+ *
+ * @param {string} payload
+ * @param {jwt.SignOptions | undefined} options
+ * @returns
+ */
+exports.sign = (payload, options) => {
+  return jwt.sign(payload, process.env.SECRET_TOKEN, options);
 };
 
-exports.verify = (token) => {
-  return jwt.verify(token, process.env.SECRET_TOKEN);
+/**
+ *
+ * @param {string} token
+ * @param {jwt.VerifyOptions & {complete: true} | undefined} options
+ * @returns
+ */
+exports.verify = (token, options) => {
+  return jwt.verify(token, process.env.SECRET_TOKEN, options);
 };
