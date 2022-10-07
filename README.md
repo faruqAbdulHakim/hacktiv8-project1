@@ -27,5 +27,5 @@ $ npm run migrate (to create dan migration table in database)
 
 | name           | docs                              |
 | -------------- | --------------------------------- |
-| USERS DOCS      | [ADMIN](./docs/users.md)          |
-| REFLECTIONS DOCS      | [WISATA](./docs/reflection.md)          |
+| USERS DOCS      | [Users](./docs/users.md)          |
+| REFLECTIONS DOCS      | [Reflections](./docs/reflection.md)          |
