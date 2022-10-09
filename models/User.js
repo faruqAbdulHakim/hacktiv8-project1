@@ -1,14 +1,6 @@
 const pool = require('./../config/DBConnection');
 const hashPassword = require('./../helpers/bcrypt');
 
-
-/**
- * @typedef {{
- *  id: number,
- *  email: string,
- *  password: string,
- * }} UserRow
- */
 class User {
   constructor(id, email, password) {
     this.id = id;
@@ -20,7 +12,7 @@ class User {
   /**
    * @param {string} email
    * @param {string} password
-   * @return {Promise<{new User, error?: Error}>}
+   * @return {Promise<User | {success?: boolean, error?: Error}>}
    */
   static async register(email, password) {
     try {
@@ -39,7 +31,7 @@ class User {
 
   /**
    * @param {string} email
-   * @return {Promise<{new User, error?: Error}>}
+   * @return {Promise<User | {success?: boolean, error?: Error}>}
    */
   static async login(email) {
     try {

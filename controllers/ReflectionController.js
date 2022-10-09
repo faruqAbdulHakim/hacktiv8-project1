@@ -1,6 +1,11 @@
 const Reflection = require('../models/Reflection.js');
 
 class ReflectionController {
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
   static async create(req, res, next) {
     try {
       const { success, low_point, take_away } = req.body;
@@ -22,6 +27,11 @@ class ReflectionController {
     }
   }
 
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
   static async findAll(req, res, next) {
     try {
       const result = await Reflection.findByOwnerId(req.user.id);
@@ -33,6 +43,11 @@ class ReflectionController {
     }
   }
 
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
   static async delete(req, res, next) {
     try {
       const { id } = req.params;
@@ -46,6 +61,11 @@ class ReflectionController {
     }
   }
 
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
   static async update(req, res, next) {
     try {
       const { id } = req.params;

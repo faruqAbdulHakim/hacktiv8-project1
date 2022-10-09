@@ -62,7 +62,7 @@ class Reflection {
   /**
    *
    * @param {number} id
-   * @return {Promise<{success: boolean, result?: ReflectionRow[], error: Error}>}
+   * @return {Promise<{success: boolean, result?: ReflectionRow[], error?: Error}>}
    */
   static async findById(id) {
     try {
