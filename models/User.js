@@ -5,9 +5,8 @@ class User {
   constructor(id, email, password) {
     this.id = id;
     this.email = email;
-    this.password = password
-  };
-
+    this.password = password;
+  }
 
   /**
    * @param {string} email
@@ -16,18 +15,23 @@ class User {
    */
   static async register(email, password) {
     try {
-      const hashing = hashPassword.cryptPassword(password)
-      const register = await pool.query(`
+      const hashing = hashPassword.cryptPassword(password);
+      const register = await pool.query(
+        `
         INSERT INTO users (email, password) 
           VALUES ($1, $2) 
-          RETURNING *;`, [email, hashing]
+          RETURNING *;`,
+        [email, hashing]
       );
-      return new User(register.rows[0].id, register.rows[0].email, register.rows[0].password)
+      return new User(
+        register.rows[0].id,
+        register.rows[0].email,
+        register.rows[0].password
+      );
     } catch (error) {
-      return { success: false, error }
+      return { success: false, error };
     }
   }
-
 
   /**
    * @param {string} email
@@ -35,13 +39,19 @@ class User {
    */
   static async login(email) {
     try {
-      const login = await pool.query(`
+      const login = await pool.query(
+        `
       SELECT id, email, password 
-        FROM users WHERE email = $1;`,[email]
+        FROM users WHERE email = $1;`,
+        [email]
       );
-      return new User(login.rows[0].id, login.rows[0].email, login.rows[0].password)
+      return new User(
+        login.rows[0].id,
+        login.rows[0].email,
+        login.rows[0].password
+      );
     } catch (error) {
-        return { success: false, error }
+      return { success: false, error };
     }
   }
 }

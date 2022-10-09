@@ -20,7 +20,9 @@ class UsersController {
 
       const register = await User.register(email, password);
 
-      res.status(201).json({ message: 'Register Success', account: register.email });
+      res
+        .status(201)
+        .json({ message: 'Register Success', account: register.email });
     } catch (error) {
       next(error);
     }
@@ -39,7 +41,8 @@ class UsersController {
 
       if (!login.email) throw { name: 'UserNotFound' };
 
-      if (!bcrypt.comparePassword(password, login.password)) throw { name: 'WrongPassword' };
+      if (!bcrypt.comparePassword(password, login.password))
+        throw { name: 'WrongPassword' };
 
       const token = sign(
         {
