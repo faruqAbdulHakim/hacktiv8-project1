@@ -18,7 +18,7 @@ class Reflection {
    * @param {string} low_point
    * @param {string} take_away
    * @param {string} owner_id
-   * @return {Promise<{success: boolean, count?: number, error?: Error}>}
+   * @return {Promise<{success: boolean, new object?: Reflection, error?: Error}>}
    */
   static async create(success, low_point, take_away, owner_id) {
     try {
@@ -31,7 +31,7 @@ class Reflection {
         `,
         [success, low_point, take_away, owner_id]
       );
-      return { success: true, count: reflection.rowCount };
+      return reflection.rows[0];
     } catch (error) {
       return { success: false, error };
     }
