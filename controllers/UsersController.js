@@ -12,6 +12,8 @@ class UsersController {
   static async register(req, res, next) {
     try {
       const { email, password } = req.body;
+      if (!email || !password) throw { name: 'BadRequest' };
+
       const cekEmail = await User.login(email, password);
 
       if (email === cekEmail.email) throw { name: 'EmailExist' };
@@ -37,6 +39,8 @@ class UsersController {
   static async login(req, res, next) {
     try {
       const { email, password } = req.body;
+      if (!email || !password) throw { name: 'BadRequest' };
+
       const login = await User.login(email, password);
 
       if (!login.email) throw { name: 'UserNotFound' };

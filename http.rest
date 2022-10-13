@@ -1,0 +1,52 @@
+###
+# FIXME: contoh di kode.id return token?
+POST http://localhost:3000/api/v1/users/register
+Content-Type: application/json
+
+{
+  "email": "tes3@mail.com",
+  "password": "12345678"
+}
+
+### LOGIN
+# FIXME: format {token}
+POST http://localhost:3000/api/v1/users/login
+Content-Type: application/json
+
+{
+  "email": "tes@mail.com",
+  "password": "12345678"
+}
+
+### Reflection
+GET http://localhost:3000/api/v1/reflections
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE2NjU2Njk3OTUsImV4cCI6MTY2NTc1NjE5NX0.3LjyEtmTWDtmi-ETi1rSdLCrJKatXEQocHWviLlSY7Q
+# Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ0ZXMyQG1haWwuY29tIiwiaWF0IjoxNjY1NjY4OTA2LCJleHAiOjE2NjU3NTUzMDZ9.w8dw77EzRu_4ZFTtT69K93O5G-V6gE2Ma0I75HABQe0
+
+### POST reflection
+# FIXME: format {id, success, low_point, take_away, owner_id, created_date, modified_date}
+POST http://localhost:3000/api/v1/reflections
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE2NjU2Njg2NTUsImV4cCI6MTY2NTc1NTA1NX0.sun8h8pgvtcLyVFcXCVU9Fyxfddam8oaCsf-vJhH84A
+Content-Type: application/json
+
+{
+  "success": "success",
+  "low_point": "lp",
+  "take_away": "ta"
+}
+
+### DELETE reflection
+DELETE http://localhost:3000/api/v1/reflections/2
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE2NjU2Njg2NTUsImV4cCI6MTY2NTc1NTA1NX0.sun8h8pgvtcLyVFcXCVU9Fyxfddam8oaCsf-vJhH84A
+
+### Update
+PUT http://localhost:3000/api/v1/reflections/2
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE2NjU2Njk3OTUsImV4cCI6MTY2NTc1NjE5NX0.3LjyEtmTWDtmi-ETi1rSdLCrJKatXEQocHWviLlSY7Q
+Content-Type: application/json
+
+{
+  "success": "updated success",
+  "low_point": "updated lp",
+  "take_away": "updated ta"
+}
+
