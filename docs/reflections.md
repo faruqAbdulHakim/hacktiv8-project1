@@ -21,8 +21,13 @@
 
 ```js
 {
-  success: true,
-  count: 1
+  id: 1,
+  success: "project 1 hacktiv8",
+  low_point: "lowpoint",
+  take_away: "take away",
+  owner_id: 1,
+  created_date: "2022-10-13T16:11:10.849Z",
+  modified_date: "2022-10-13T16:11:10.849Z"
 }
 ```
 

@@ -39,7 +39,6 @@
 
 ```js
 {
-  message: "Success, You are login",
   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJoYXJ3YW5"
 }
 ```
