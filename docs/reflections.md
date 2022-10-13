@@ -71,8 +71,13 @@
 
 ```js
 {
-  success: true,
-  count: 1
+  id: 6,
+  success: "done",
+  low_point: "lowpoint banget",
+  take_away: "take away",
+  owner_id: 3,
+  created_date: "2022-10-13T16:11:10.849Z",
+  modified_date: "2022-10-13T16:11:10.849Z"
 }
 ```
 
