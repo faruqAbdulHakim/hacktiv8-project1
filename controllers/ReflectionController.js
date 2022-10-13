@@ -21,7 +21,7 @@ class ReflectionController {
 
       if (result.error) throw result.error;
       if (result.count === 0) throw { name: 'InternalServerError' };
-      res.status(200).json(result);
+      res.status(201).json(result);
     } catch (error) {
       next(error);
     }

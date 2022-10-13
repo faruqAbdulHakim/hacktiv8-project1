@@ -25,22 +25,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiO
 ### POST reflection
 # FIXME: format {id, success, low_point, take_away, owner_id, created_date, modified_date}
 POST http://localhost:3000/api/v1/reflections
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE2NjU2Njg2NTUsImV4cCI6MTY2NTc1NTA1NX0.sun8h8pgvtcLyVFcXCVU9Fyxfddam8oaCsf-vJhH84A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjY1NjcyMjQ0LCJleHAiOjE2NjU3NTg2NDR9.DS6kR9rVvZZEC4GJzYozwCQP02Skt0s2rcDVcm6h8Y0
 Content-Type: application/json
 
 {
-  "success": "success",
-  "low_point": "lp",
-  "take_away": "ta"
+  "success": "done",
+  "low_point": "lowpoint banget",
+  "take_away": "take away"
 }
 
 ### DELETE reflection
 DELETE http://localhost:3000/api/v1/reflections/2
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE2NjU2Njg2NTUsImV4cCI6MTY2NTc1NTA1NX0.sun8h8pgvtcLyVFcXCVU9Fyxfddam8oaCsf-vJhH84A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjY1NjcyMjQ0LCJleHAiOjE2NjU3NTg2NDR9.DS6kR9rVvZZEC4GJzYozwCQP02Skt0s2rcDVcm6h8Y0
 
 ### Update
 PUT http://localhost:3000/api/v1/reflections/2
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJ0ZXNAbWFpbC5jb20iLCJpYXQiOjE2NjU2Njk3OTUsImV4cCI6MTY2NTc1NjE5NX0.3LjyEtmTWDtmi-ETi1rSdLCrJKatXEQocHWviLlSY7Q
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJ0ZXN0QG1haWwuY29tIiwiaWF0IjoxNjY1NjcyMjQ0LCJleHAiOjE2NjU3NTg2NDR9.DS6kR9rVvZZEC4GJzYozwCQP02Skt0s2rcDVcm6h8Y0
 Content-Type: application/json
 
 {
