@@ -55,7 +55,7 @@ class UsersController {
         },
         { expiresIn: '1d' }
       );
-      res.status(200).json({ message: 'Success, You are login', token });
+      res.status(200).json({ token });
     } catch (error) {
       next(error);
     }
