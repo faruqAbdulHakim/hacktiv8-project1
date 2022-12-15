@@ -1,49 +1,90 @@
-const Reflection = require("../models/Reflection.js");
+const Reflection = require('../models/Reflection.js');
 
 class ReflectionController {
-    static async create(req, res, next) {
-        const { success, low_point, take_away} = req.body;
-        try {
-            const reflection = await Reflection.create(success, low_point, take_away, req.user.id);
-            res.status(200).json(reflection);
-        } catch (error) {
-            next(error)
-        }
-    }
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
+  static async create(req, res, next) {
+    try {
+      const { success, low_point, take_away } = req.body;
 
-    static async findAll(req, res, next) {
-        try {
-            const reflection = await Reflection.findAll(req.user.id)
-            res.status(200).json(reflection);
-        } catch (error) {
-            next(error)
-        }
-    }
+      if (!success || !low_point || !take_away) throw { name: 'BadRequest' };
 
-    static async delete(req, res, next) {
-        const { id } = req.params;
-        try {
-            const reflection = await Reflection.delete( id, req.user.id )
-            if (!reflection) throw { name: 'ErrNotFound' };
-            res.status(200).json(reflection);
-        } catch (error) {
-            next(error)
-        }
-    }
+      const result = await Reflection.create(
+        success,
+        low_point,
+        take_away,
+        req.user.id
+      );
 
-    static async update(req, res, next) {
-        const { id } = req.params;
-        const { success, low_point, take_away } = req.body;
-        const data = { success, low_point, take_away }
-        try {
-            const reflection = await Reflection
-            .update(id, req.user.id, data)
-            if (!reflection) throw { name: 'ErrNotFound' };
-            res.status(200).json(reflection);
-        } catch (error) {
-            next(error)
-        }
+      if (result.error) throw result.error;
+      if (result.count === 0) throw { name: 'InternalServerError' };
+      res.status(201).json(result);
+    } catch (error) {
+      next(error);
     }
+  }
+
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
+  static async findAll(req, res, next) {
+    try {
+      const result = await Reflection.findByOwnerId(req.user.id);
+
+      if (result.error) throw result.error;
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
+  static async delete(req, res, next) {
+    try {
+      const { id } = req.params;
+      const result = await Reflection.delete(id, req.user.id);
+
+      if (result.error) throw result.error;
+      if (result.count === 0) throw { name: 'ErrNotFound' };
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * @param {Request} req
+   * @param {Response} res
+   * @param {import('express').NextFunction} next
+   */
+  static async update(req, res, next) {
+    try {
+      const { id } = req.params;
+      const { success, low_point, take_away } = req.body;
+      if (!success || !low_point || !take_away) throw { name: 'BadRequest' };
+
+      const result = await Reflection.update(id, req.user.id, {
+        success,
+        low_point,
+        take_away,
+      });
+
+      if (result.error) throw result.error;
+      if (result.count === 0) throw { name: 'ErrNotFound' };
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = ReflectionController;

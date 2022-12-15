@@ -1,18 +1,26 @@
-const { verify } = require('../helpers/jwtHelper')
+const { verify } = require('../helpers/jwtHelper');
 
-function userVerify (req, res, next) {
+/**
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @param {import('express').NextFunction} next
+ */
+function authMiddleware(req, res, next) {
   try {
-    const authHeader = req.headers['authorization']
-    token = authHeader.split("Bearer ");
-    if (!authHeader) throw { name: 'notLogin'};
-    if (token.length !== 2) throw { name: 'invalidToken'};
-    const { id, email } = verify(token[1]);
-    if (!user) throw { name: 'Unauthorized' };
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) throw { name: 'notLogin' };
+
+    token = authHeader.split(' ')[1];
+
+    const { id, email } = verify(token);
+    if (!id || !email) throw { name: 'Unauthorized' };
+
     req.user = { id, email };
-    next()
+    next();
   } catch (error) {
-    next(error)
+    next(error);
   }
 }
 
-module.exports = userVerify;
+module.exports = authMiddleware;
